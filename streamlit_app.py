@@ -1,31 +1,70 @@
-# Streamlitライブラリをインポート
 import streamlit as st
+import requests
+import json
 
-# ページ設定（タブに表示されるタイトル、表示幅）
-st.set_page_config(page_title="タイトル", layout="wide")
+# 動物の画像を取得する関数
+def get_animal_image(animal_name):
+    url = "https://api.thecatapi.com/v1/images/search?q=" + animal_name
+    response = requests.get(url)
+    data = json.loads(response.content)
+    return data[0]["url"]
 
-# タイトルを設定
-st.title('Streamlitのサンプルアプリ')
+# メイン処理
+st.title("いろんな動物を表示するWebアプリケーション")
 
-# テキスト入力ボックスを作成し、ユーザーからの入力を受け取る
-user_input = st.text_input('あなたの名前を入力してください')
+# 動物名を入力する
+animal_name = st.text_input("動物名を入力してください")
 
-# ボタンを作成し、クリックされたらメッセージを表示
-if st.button('挨拶する'):
-    if user_input:  # 名前が入力されているかチェック
-        st.success(f'🌟 こんにちは、{user_input}さん! 🌟')  # メッセージをハイライト
-    else:
-        st.error('名前を入力してください。')  # エラーメッセージを表示
+# 動物の画像を表示する
+if animal_name != "":
+    image_url = get_animal_image(animal_name)
+    st.image(image_url)
+コードは慎重に使用してください。詳細
+このコードは、以下の手順で動作します。
 
-# スライダーを作成し、値を選択
-number = st.slider('好きな数字（10進数）を選んでください', 0, 100)
+get_animal_image()関数は、指定された動物名の画像を取得します。
+メイン処理では、ユーザーが入力した動物名をget_animal_image()関数に渡して、画像を取得します。
+画像が取得できた場合は、st.image()関数を使って画像を表示します。
+このコードを実行すると、以下の画面が表示されます。
 
-# 補足メッセージ
-st.caption("十字キー（左右）でも調整できます。")
+いろんな動物を表示するWebアプリケーション
 
-# 選択した数字を表示
-st.write(f'あなたが選んだ数字は「{number}」です。')
+動物名を入力してください
+動物名を入力して「Enter」キーを押すと、動物の画像が表示されます。
 
-# 選択した数値を2進数に変換
-binary_representation = bin(number)[2:]  # 'bin'関数で2進数に変換し、先頭の'0b'を取り除く
-st.info(f'🔢 10進数の「{number}」を2進数で表現すると「{binary_representation}」になります。 🔢')  # 2進数の表示をハイライト
+例えば、動物名に「犬」と入力すると、以下の画面が表示されます。
+
+いろんな動物を表示するWebアプリケーション
+
+動物名を入力してください
+犬
+
+犬の画像が表示されます。
+
+このコードを応用して、動物の種類や地域ごとに画像を表示するようにすることもできます。
+
+例えば、以下のコードは、犬の種類ごとに画像を表示するコードです。
+
+Python
+import streamlit as st
+import requests
+import json
+
+# 動物の画像を取得する関数
+def get_animal_image(animal_name):
+    url = "https://api.thecatapi.com/v1/images/search?q=" + animal_name
+    response = requests.get(url)
+    data = json.loads(response.content)
+    return data[0]["url"]
+
+# メイン処理
+st.title("いろんな犬の種類を表示するWebアプリケーション")
+
+# 犬の種類を選択する
+dog_types = ["柴犬", "ゴールデンレトリバー", "チワワ"]
+dog_type = st.selectbox("犬の種類を選択してください", dog_types)
+
+# 犬の画像を表示する
+if dog_type != "":
+    image_url = get_animal_image(dog_type)
+    st.image(image_url)
