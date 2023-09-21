@@ -20,7 +20,6 @@ if animal_name != "":
     image_url = get_animal_image(animal_name)
     st.image(image_url)
 
-Python
 import streamlit as st
 import requests
 import json
