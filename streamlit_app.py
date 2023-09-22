@@ -2,43 +2,25 @@ import streamlit as st
 import requests
 import json
 
-# 動物の画像を取得する関数
-def get_animal_image(animal_name):
-    url = "https://api.thecatapi.com/v1/images/search?q=" + animal_name
+# Liyuuの画像を取得する関数
+def get_liyuu_image(liyuu_name, costume_name):
+    url = "https://api.theliyuu.com/v1/images/search?q=" + liyuu_name + "&costume=" + costume_name
     response = requests.get(url)
     data = json.loads(response.content)
     return data[0]["url"]
 
 # メイン処理
-st.title("いろんな動物を表示するWebアプリケーション")
+st.title("いろんなLiyuuの衣装を表示するWebアプリケーション")
 
-# 動物名を入力する
-animal_name = st.text_input("動物名を入力してください")
+# Liyuuの名前を選択する
+liyuu_names = ["李宇春", "虞書欣", "周洁琼"]
+liyuu_name = st.selectbox("Liyuuの名前を選択してください", liyuu_names)
 
-# 動物の画像を表示する
-if animal_name != "":
-    image_url = get_animal_image(animal_name)
-    st.image(image_url)
+# Liyuuの衣装を選択する
+costume_names = ["紅装", "白装", "黑装"]
+costume_name = st.selectbox("Liyuuの衣装を選択してください", costume_names)
 
-import streamlit as st
-import requests
-import json
-
-# 動物の画像を取得する関数
-def get_animal_image(animal_name):
-    url = "https://api.thecatapi.com/v1/images/search?q=" + animal_name
-    response = requests.get(url)
-    data = json.loads(response.content)
-    return data[0]["url"]
-
-# メイン処理
-st.title("いろんな犬の種類を表示するWebアプリケーション")
-
-# 犬の種類を選択する
-dog_types = ["柴犬", "ゴールデンレトリバー", "チワワ"]
-dog_type = st.selectbox("犬の種類を選択してください", dog_types)
-
-# 犬の画像を表示する
-if dog_type != "":
-    image_url = get_animal_image(dog_type)
+# Liyuuの画像を表示する
+if liyuu_name != "" and costume_name != "":
+    image_url = get_liyuu_image(liyuu_name, costume_name)
     st.image(image_url)
